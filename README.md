@@ -343,4 +343,153 @@ if (author === 'user') {
 conversationElem.scrollTop = conversationElem.scrollHeight;
 ```
 
-**And we're done!** We are going to use the frontend we built here for the next activities.
+**And we're done!** We are going to use the frontend we built here for the next exercises.
+
+---
+
+## Exercise 2 - Monkey Chat
+
+<img src="__lecture/assets/exercise-2.gif" />
+
+For this exercise, the frontend code is complete. We're using code similar to what you built in exercise 1. All code is to be written in the `server.js` file.
+
+So. Our monkey is more responsive than the cat, but not by much. When the user messages the monkey, it will respond a random message.
+
+Write a new endpoint that is similar to the `/cat-message` endpoint. It should have the following characteristics:
+
+- Uses the `.get()` method
+- the endpoint is `/monkey-message`
+- the method should respond with a random message from an array of messages.
+- feel free to keep the `setTimeout` as it adds a little realism to the interaction. :)
+
+Here is a sample array of random messages.
+
+```js
+const messages = [
+  'Don’t monkey around with me.',
+  'If you pay peanuts, you get monkeys.',
+  'I fling 💩 at you!',
+  '🙊',
+  '🙈',
+  '🙉',
+];
+```
+
+---
+
+## Exercise 3 - Parrot Chat
+
+<img src="__lecture/assets/exercise-3.gif" />
+
+As we move through the animal kingdom, it is now time to speak with a parrot. As you might guess, the parrot will just reply with the exact message that the user sent. This starts to make things more complicated for us.
+
+Up to now, the chat app has been querying the server and just getting a message without sending any data to the server. Now we need the chat app to send the user message to the server.
+
+1. Let's start by creating our method and endpoint:
+
+- Uses the `.get()` method
+- the endpoint is `/parrot-message`
+- the method should respond with a generic message for now. `Polly want a cracker?`
+- feel free to keep the `setTimeout` as it adds a little realism to the interaction. :)
+
+2. Sample query parameter
+
+We are going to send the user message to the server with a `query` parameter. It is possible to attach a data to the url that the server can read.
+
+For example, this url contains a additional data in the form of a `query` parameter:
+
+```
+http://concordiabootcamps.ca?favoriteFood=avocados&name=Morty
+```
+
+- The question mark in a url, indicates the beginning of a `query`.
+- Queries are written as key/value pairs (no spaces and separated by an equal sign `=`).
+- Key/value pairs are separated by an `&` symbol.
+
+Let's hardcode a query parameter in the url like so:
+
+<img src="__lecture/assets/query-param.png" />
+
+Notice that we are not loading the frontend page here but the server endpoint. `/parrot-message/?color=blue`.
+The server will respond with its `json` object.
+
+<img src="__lecture/assets/query-param-2.png" />
+
+This is expected, but not the most interesting...
+
+In the `.get` method, add a `console.log(req.query)` and reload the web page. You should see this in the `node` console (_in VS code_).
+
+<img src="__lecture/assets/query-param-3.png" />
+
+🤯 The request from the site contains an object that breaks down the query parameters into key/value pairs.
+
+Use this super-power to pass the user message from the frontend to the backend.
+
+- You will need to modify the url `fetch` call in `parrot/scripts.js` to be _dynamic_.
+- You will need to receive the message in the server endpoint and send it back as the parrot's message.
+
+---
+
+## Exercise 4 - Bot chat
+
+<img src="__lecture/assets/exercise-4.gif" />
+
+Time to kick things up a notch. Since we can't build something that will connect the user to a human, let's do the next best thing: a bot! 🤖.
+
+Let's create a bot that that will _read_ the user message and respond appropriately. This can be a HUGE rabbit hole. So we won't even pretend to make the bot smart, but it should be smarter than our cat, monkey and parrot.
+
+1. Let's start by creating our method and endpoint:
+
+- Uses the `.get()` method
+- the endpoint is `/bot-message`
+- the method should respond with the user's message plus a `Bzzt` at the beginning. _look at the parrot example if you're stuck._
+- feel free to keep the `setTimeout` as it adds a little realism to the interaction. :)
+
+You should end up with something like this.
+
+<img src="__lecture/assets/bot-chat-1.png" />
+
+2. A proper greeting
+
+The bot should respond to any greeting with a greeting of its own.
+
+If a user message `includes` any common greeting word, like
+
+```js
+const commonGreetings = ['hi', 'hello', 'howdy'];
+```
+
+One way to do this would be to check if the user's message is in the array.
+
+```js
+const getBotMessage = (text) => {
+  const commonGreetings = ['hi', 'hello', 'howdy'];
+  let botMsg = '';
+  if (commonGreetings.includes(text.toLowerCase())) {
+    botMsg = 'Hello!';
+  }
+  return botMsg;
+};
+```
+
+But this is not ideal. If the user types "Hi", the bot would understand, but if the user types "Hi!!" the bot doesn't get it because the strings don't match.
+
+Rewrite the function above to loop through the `commonGreetings` and check if any of the items exist in the user's text.
+
+- If it does, make the bot say "Hello."
+- If it doesn't have the bot repeat what the user said. (with an added 'Bzzt').
+
+<img src="__lecture/assets/bot-chat-2.png" />
+
+3. A fine goodbye.
+
+Repeat what you did for #2 and implement a proper robot goodbye, if the user's text includes a "goodbye" word. Declare an array `commonGoodbyes` and have a few possibilities that the bot would understand.
+
+4. Tell me a joke.
+
+If the user says "something funny", the bot should ask if the user wants to hear a joke. It should also explain that it will wait for `YES` or `NO`.
+
+- If the user says `YES`, the bot tells a joke and asks if the user wants another.
+- If the user says `NO`, the bot says goodbye...
+
+_Find some "clean" jokes online. You could build an array of a few jokes that the bot can use to send to the user._
