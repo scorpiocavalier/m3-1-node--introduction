@@ -485,6 +485,12 @@ Rewrite the function above to loop through the `commonGreetings` and check if an
 
 Repeat what you did for #2 and implement a proper robot goodbye, if the user's text includes a "goodbye" word. Declare an array `commonGoodbyes` and have a few possibilities that the bot would understand.
 
+---
+
+<center>🟡 - Minimally complete workshop (75%) - 🟡</center>
+
+---
+
 4. Tell me a joke.
 
 If the user says "something funny", the bot should ask if the user wants to hear a joke. It should also explain that it will wait for `YES` or `NO`.
@@ -493,3 +499,13 @@ If the user says "something funny", the bot should ask if the user wants to hear
 - If the user says `NO`, the bot says goodbye...
 
 _Find some "clean" jokes online. You could build an array of a few jokes that the bot can use to send to the user._
+
+---
+
+<center>🟢 - Complete workshop (100%) - 🟢</center>
+
+---
+
+## Stretch goals
+
+...coming soon...
