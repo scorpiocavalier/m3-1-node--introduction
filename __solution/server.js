@@ -22,6 +22,13 @@ express()
   // ---------------------------------
   // Nothing to modify below this line
 
+  .get('/cat-message', (req, res) => {
+    const message = { author: 'cat', text: 'meow' };
+    const randomTime = Math.floor(Math.random() * 3000);
+    setTimeout(() => {
+      res.status(200).json({ status: 200, message });
+    }, randomTime);
+  })
   // this serves up the homepage
   .get('/', (req, res) => {
     res.send("This is the homepage... it's empty :(");
@@ -30,9 +37,8 @@ express()
   // this is our catch all endpoint. If a user navigates to any endpoint that is not
   // defined above, they get to see our 404 page.
   .get('*', (req, res) => {
-    res
-      .status(404)
-      .send('404... This is obviously not the page you are looking for.');
+    res.status(404);
+    res.send('404... This is obviously not the page you are looking for.');
   })
 
   // Node spins up our server and sets it to listen on port 8000.
