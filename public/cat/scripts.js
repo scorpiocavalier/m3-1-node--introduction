@@ -1,6 +1,10 @@
 const messageInput = document.querySelector('#user-input');
 const conversationElem = document.querySelector('#conversation-container')
 
+const handleFocus = () => {
+  messageInput.focus()
+}
+
 const sendMessage = event => {
   // prevent the default "page reload" from occurring.
   event.preventDefault();
@@ -26,4 +30,12 @@ const updateConversation = message => {
   messageElem.innerHTML = `<span>${text}</span>`
 
   conversationElem.appendChild(messageElem)
+  conversationElem.scrollTop = conversationElem.scrollHeight
+
+  if(author === 'user')
+    messageInput.value = ''
+
+  handleFocus()
 }
+
+handleFocus()
