@@ -1,7 +1,7 @@
 const messageInput = document.querySelector('#user-input');
 const conversationElem = document.querySelector('#conversation-container')
 
-const sendMessage = (event) => {
+const sendMessage = event => {
   // prevent the default "page reload" from occurring.
   event.preventDefault();
 
@@ -11,6 +11,10 @@ const sendMessage = (event) => {
   }
 
   updateConversation(message)
+
+  fetch('/cat-message')
+    .then(res => res.json())
+    .then(data => console.log(data))
 };
 
 const updateConversation = message => {
