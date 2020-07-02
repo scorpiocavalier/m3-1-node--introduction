@@ -24,7 +24,9 @@ express()
 
   // this serves up the homepage
   .get('/', (req, res) => {
-    res.send("This is the homepage... it's empty :(");
+    res
+      .status(200)
+      .json({ status: 200, message: "This is the homepage... it's empty :(" });
   })
 
   // this is our catch all endpoint. If a user navigates to any endpoint that is not
@@ -32,7 +34,10 @@ express()
   .get('*', (req, res) => {
     res
       .status(404)
-      .send('404... This is obviously not the page you are looking for.');
+      .json({
+        status: 404,
+        message: 'This is obviously not the page you are looking for.',
+      });
   })
 
   // Node spins up our server and sets it to listen on port 8000.
