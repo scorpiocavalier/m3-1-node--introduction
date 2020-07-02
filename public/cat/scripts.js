@@ -21,8 +21,9 @@ const updateConversation = message => {
   const { author, text } = message
 
   const messageElem = document.createElement('p')
+  messageElem.classList.add('message', author)
 
-  messageElem.innerHTML = `<span>${author}: ${text}</span>`
+  messageElem.innerHTML = `<span>${text}</span>`
 
   conversationElem.appendChild(messageElem)
 }
