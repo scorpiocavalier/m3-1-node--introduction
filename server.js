@@ -14,21 +14,41 @@ express()
   // Any requests for static files will go into the public folder
   .use(express.static('public'))
 
-  // Nothing to modify above this line
-  // ---------------------------------
-  // add new endpoints here 👇
   .get('/cat-message', (req, res) => {
-    const message = { author: 'cat', text: 'Meow'}
+    const message = { author: 'cat', text: 'Meow' }
     const randomTime = Math.floor(Math.random() * 3000)
-    setTimeout(() => {
-      res.status(200).json({ status: 200, message })
-    }, randomTime)
+    setTimeout(() => res.status(200).json({ status: 200, message }), randomTime)
   })
-  // add new endpoints here ☝️
-  // ---------------------------------
-  // Nothing to modify below this line
 
-  // this serves up the homepage
+  .get('/monkey-message', (req, res) => {
+    const messages = [
+      'Don’t monkey around with me.',
+      'If you pay peanuts, you get monkeys.',
+      'I fling 💩 at you!',
+      '🙊',
+      '🙈',
+      '🙉',
+    ]
+
+    const getRandomMessage = () => {
+      return {
+        author: 'monkey',
+        text: messages[Math.floor(Math.random() * messages.length)]
+      }
+    }
+
+    const randomTime = Math.floor(Math.random() * 3000)
+
+    setTimeout(() => 
+      res
+        .status(200)
+        .json({ 
+          status: 200, 
+          message: getRandomMessage()}
+        ), 
+      randomTime)}
+    )
+
   .get('/', (req, res) => {
     res
       .status(200)
