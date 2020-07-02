@@ -42,12 +42,23 @@ express()
     setTimeout(() => 
       res
         .status(200)
+        .json({ status: 200, message: getRandomMessage() }),
+      randomTime
+    )
+  })
+
+  .get(`/parrot-message/`, (req, res) => {
+    const message = { author: 'parrot', text: req.query.msg }
+    const randomTime = Math.floor(Math.random() * 3000)
+    setTimeout(() => 
+      res
+        .status(200)
         .json({ 
           status: 200, 
-          message: getRandomMessage()}
-        ), 
-      randomTime)}
-    )
+          message 
+        }), 
+    randomTime)
+  })
 
   .get('/', (req, res) => {
     res
