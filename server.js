@@ -17,7 +17,12 @@ express()
   // Nothing to modify above this line
   // ---------------------------------
   // add new endpoints here 👇
-
+  .get('/cat-message', (req, res) => {
+    const message = { author: 'cat', text: 'Meow'}
+    res
+      .status(200)
+      .json({ status: 200, message })
+  })
   // add new endpoints here ☝️
   // ---------------------------------
   // Nothing to modify below this line

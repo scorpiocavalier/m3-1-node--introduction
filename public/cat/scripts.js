@@ -14,7 +14,7 @@ const sendMessage = event => {
 
   fetch('/cat-message')
     .then(res => res.json())
-    .then(data => console.log(data))
+    .then(data => updateConversation(data.message))
 };
 
 const updateConversation = message => {
@@ -22,7 +22,7 @@ const updateConversation = message => {
 
   const messageElem = document.createElement('p')
 
-  messageElem.innerHTML = `<span>${text}</span>`
+  messageElem.innerHTML = `<span>${author}: ${text}</span>`
 
   conversationElem.appendChild(messageElem)
 }
