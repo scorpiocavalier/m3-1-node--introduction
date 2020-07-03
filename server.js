@@ -47,17 +47,39 @@ express()
     )
   })
 
-  .get(`/parrot-message/`, (req, res) => {
+  .get('/parrot-message/', (req, res) => {
     const message = { author: 'parrot', text: req.query.msg }
     const randomTime = Math.floor(Math.random() * 3000)
     setTimeout(() => 
-      res
-        .status(200)
-        .json({ 
-          status: 200, 
-          message 
-        }), 
-    randomTime)
+      res.status(200).json({ status: 200, message }), randomTime)
+  })
+
+  .get('/bot-message', (req, res) => {
+
+    const getBotResponse = userInput => {
+      const commonGreetings = ['hi', 'hello', 'howdy']
+      const commonGoodbyes = ['goodbye', 'bye', 'chao', 'sayonara', 'later']
+      const commonInputs = [commonGreetings, commonGoodbyes]
+      const commonResponses = ['hello!', 'goodbye!']
+
+      let inputArr = userInput.split(' ')
+      for(let input of inputArr)
+        for(let [index, arr] of commonInputs.entries())
+          if(arr.some(word => input.toLowerCase().startsWith(word)))
+            return commonResponses[index]
+
+      return userInput
+    }
+
+    // User input
+    const userInput = req.query.msg
+    const botResponse = getBotResponse(userInput)
+    const text = `Bzzt ${botResponse}`
+
+    // Send response
+    const message = { author: 'bot', text }
+    const randomTime = Math.floor(Math.random() * 3000)
+    setTimeout(() => res.status(200).json({ status: 200, message }), randomTime)
   })
 
   .get('/', (req, res) => {
@@ -66,7 +88,6 @@ express()
       .json({ status: 200, message: "This is the homepage... it's empty :(" });
   })
 
-  // this is our catch all endpoint. If a user navigates to any endpoint that is not
   // defined above, they get to see our 404 page.
   .get('*', (req, res) => {
     res
