@@ -56,7 +56,7 @@ express()
 
   .get('/bot-message', (req, res) => {
 
-    const getBotResponse = userInput => {
+      const getBotResponse = userInput => {
       const commonGreetings = ['hi', 'hello', 'howdy']
       const commonGoodbyes = ['goodbye', 'bye', 'chao', 'sayonara', 'later']
       const commonInputs = [commonGreetings, commonGoodbyes]
@@ -72,14 +72,36 @@ express()
     }
 
     // User input
-    const userInput = req.query.msg
-    const botResponse = getBotResponse(userInput)
-    const text = `Bzzt ${botResponse}`
+    let text = ''
+    let userInput = req.query.msg
+    // Convert 'true' to boolean true with JSON.parse.
+    let jokeTime = JSON.parse(req.query.jokeTime)
+
+    if(jokeTime) {
+      if(userInput.toLowerCase() == 'yes')
+        text = `How do you remove a bug? By using arr.filter(isBug)`
+      else
+        text = `Next time then. Goodbye!`
+      
+      jokeTime = false
+    } else {
+      if(userInput.toLowerCase() == 'something funny') {
+        text = 'You want to hear something funny? (Y/N)'
+        jokeTime = true
+      } else {
+        text = `Bzzt ${getBotResponse(userInput)}`
+        jokeTime = false
+      }
+    }
 
     // Send response
     const message = { author: 'bot', text }
     const randomTime = Math.floor(Math.random() * 3000)
-    setTimeout(() => res.status(200).json({ status: 200, message }), randomTime)
+    setTimeout(() => {
+      res
+        .status(200)
+        .json({ status: 200, message, jokeTime })
+    }, randomTime)
   })
 
   .get('/', (req, res) => {

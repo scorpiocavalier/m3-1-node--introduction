@@ -3,15 +3,20 @@ const conversationElem = document.querySelector('#conversation-container')
 
 const handleFocus = () => messageInput.focus()
 
+let jokeTime = false
+
 const sendMessage = event => {
   event.preventDefault()
 
   const message = { author: 'user', text: messageInput.value }
   updateConversation(message)
 
-  fetch(`/bot-message/?msg=${message.text}`)
+  fetch(`/bot-message/?msg=${message.text}&jokeTime=${jokeTime}`)
     .then(res => res.json())
-    .then(data => updateConversation(data.message))
+    .then(data => {
+      jokeTime = data.jokeTime
+      updateConversation(data.message)
+    })
 }
 
 const updateConversation = message => {
